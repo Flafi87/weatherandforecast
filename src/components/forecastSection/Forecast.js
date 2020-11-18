@@ -5,14 +5,13 @@ import ForecastListItem from "./ForecastListItem";
 const Forecast = ({ forecast }) => {
   return (
     forecast.map(object => {
-      console.log(object)
       const date = new Date(object.dt * 1000)
-      console.log(`${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate() + 1}`)
+      const readableDate = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate() + 1}`
       return (
         <ForecastListItem
           key={date}
-          dayNumber={`${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate() + 1}`}
-          dayName={`${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate() + 1}`}
+          dayNumber={readableDate}
+          dayName={readableDate}
           allData={object}
         />
       )

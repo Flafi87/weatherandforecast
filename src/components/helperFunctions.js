@@ -54,7 +54,6 @@ export const dayCalc = (forecast) => {
       days.push(myDate);
     }
   });
-  console.log(days)
   return days
 }
 /**

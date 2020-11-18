@@ -7,7 +7,7 @@ p {
     font-size: 0.6rem;
   }
   p {
-    font-size: 0.4rem;
+    font-size: 1rem;
     font-weight: 300;
   }
 }
@@ -37,4 +37,11 @@ body {
 
 #forecast_list {
   justify-content: center;
+}
+
+.cityname {
+  background-color: #00ccff;
+  padding: 10px;
+  border-radius: 0.25rem;
+  /* max-width: 250px; */
 }

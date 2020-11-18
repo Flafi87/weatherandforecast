@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Button, Spinner, Badge } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import Header from "./Header";
 import ForecastSection from "./forecastSection";
 import TopButtons from './buttons/TopButtons'
@@ -54,7 +54,6 @@ class App extends Component {
     const { lat, lon, name } = city
     Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
       weather => {
-        console.log(weather);
         this.setState({ cityName: name, weather: weather.data.current, forecast: weather.data.daily });
       },
       error => {
@@ -66,7 +65,6 @@ class App extends Component {
 
   render() {
     const { error, weather, forecast, cityName } = this.state;
-    console.log(`city name ${cityName}`)
     const spinner = (
       <div className="d-flex justify-content-center align-middle">
         <Spinner color="primary" />
@@ -82,8 +80,8 @@ class App extends Component {
           <h1 className="text-center">
             Current Weather
           </h1>
-          <div className="text-center">
-            <h2><Badge color="secondary">{cityName}</Badge></h2>
+          <div className="text-center d-flex justify-content-center">
+            <h2 className="cityname">{cityName}</h2>
           </div>
           <div className="d-flex justify-content-center flex-wrap">
             <Button

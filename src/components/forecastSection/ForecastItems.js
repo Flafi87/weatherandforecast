@@ -3,7 +3,7 @@ import { ListGroupItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const ForecastItems = ({ condition, temperature }) => {
-  const weather = `owf owf-${condition} text-center owf-2x py-0`
+  const weather = `owf owf-${condition} text-center owf-3x py-0`
 
   return (
     <ListGroupItem className="py-1 px-1 align-middle">
