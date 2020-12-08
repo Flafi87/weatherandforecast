@@ -2,7 +2,10 @@ const chartSettings = {
     colors: ['#73c9f4', '#ff0f2f', '#3333FF'],
     chart: {
         id: "line-chart",
-        width: "100%"
+        width: "100%",
+        zoom: {
+            enabled: false
+        }
     },
     xaxis: {
         type: "datetime",
@@ -82,6 +85,10 @@ const chartSettings = {
         colors: undefined,
         width: 2,
         dashArray: 0
+    },
+    grid: {
+        padding: {
+        },
     }
 };
 export default chartSettings

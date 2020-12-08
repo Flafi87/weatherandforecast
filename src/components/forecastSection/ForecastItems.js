@@ -11,14 +11,14 @@ const ForecastItems = ({ condition, temperature }) => {
       <div className="d-flex justify-content-around">
         <p className="py-0 my-0">
           {' '}
-          Min:
+          Min:{' '}
           {temperature.min.toFixed(1)}
           C°
           {' '}
         </p>
         <p className="py-0 my-0">
           {' '}
-          Max:
+          Max:{' '}
           {temperature.max.toFixed(1)}
           C°
           {' '}
@@ -29,7 +29,10 @@ const ForecastItems = ({ condition, temperature }) => {
 }
 
 ForecastItems.propTypes = {
-  temperature: PropTypes.number.isRequired,
+  temperature: PropTypes.shape({
+    max: PropTypes.number,
+    min: PropTypes.number
+  }),
   condition: PropTypes.number.isRequired,
 }
 

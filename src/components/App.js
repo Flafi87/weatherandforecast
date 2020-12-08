@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Button, Spinner } from 'reactstrap';
+import { Button,  Spinner } from 'reactstrap';
 import Header from "./Header";
 import ForecastSection from "./forecastSection";
 import TopButtons from './buttons/TopButtons'
-import env from '../config'
+import env from '../config';
+import MyMap from './Map'
 
 
-const [Warszawa, Kiskunmajsa, Budapest] = [{ name: 'Warszawa', lat: 52.22, lon: 21.01 }, { name: 'Kiskunmajsa', lat: 46.49, lon: 19.73 }, { name: 'Budapest', lat: 47.49, lon: 19.04 }];
+const [Warszawa, Kiskunmajsa, Budapest, Brenna] = [{ name: 'Warszawa', lat: 52.22, lon: 21.01 }, { name: 'Kiskunmajsa', lat: 46.49, lon: 19.73 }, { name: 'Budapest', lat: 47.49, lon: 19.04 },{ name: 'Brenna', lat: 49.732987, lon: 18.920351 }];
 const { APIkey } = env
 class App extends Component {
   constructor() {
@@ -30,14 +31,15 @@ class App extends Component {
 
     window.navigator.geolocation.getCurrentPosition(
       position => {
-        const lon = parseFloat(position.coords.longitude).toFixed(2);
-        const lat = parseFloat(position.coords.latitude).toFixed(2);
+        const lon = parseFloat(position.coords.longitude).toFixed(4);
+        const lat = parseFloat(position.coords.latitude).toFixed(4);
         Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
           weather => {
             this.setState({
               weather: weather.data.current,
               cityName: `Latitude:${lat} Longitude:${lon}`,
-              forecast: weather.data.daily
+              forecast: weather.data.daily,
+              curCity:{lat,lon}
             });
           },
           error => {
@@ -54,7 +56,7 @@ class App extends Component {
     const { lat, lon, name } = city
     Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
       weather => {
-        this.setState({ cityName: name, weather: weather.data.current, forecast: weather.data.daily });
+        this.setState({ cityName: name, weather: weather.data.current, forecast: weather.data.daily,curCity:{lat,lon} });
       },
       error => {
         this.setState({ error });
@@ -63,13 +65,17 @@ class App extends Component {
   }
 
 
+
+
   render() {
-    const { error, weather, forecast, cityName } = this.state;
+    const { error, weather, forecast, cityName, curCity } = this.state;
     const spinner = (
       <div className="d-flex justify-content-center align-middle">
         <Spinner color="primary" />
       </div>
     )
+
+    const mapSection = weather ? <div className="mapcontainer"><MyMap curCity={curCity} weather={weather}/></div> : spinner
     if (error) {
       return <div>Error</div>;
     }
@@ -80,9 +86,10 @@ class App extends Component {
           <h1 className="text-center">
             Current Weather
           </h1>
-          <div className="text-center d-flex justify-content-center">
+          {/* <div className="text-center d-flex justify-content-center">
             <h2 className="cityname">{cityName}</h2>
-          </div>
+          </div> */}
+          {mapSection}
           <div className="d-flex justify-content-center flex-wrap">
             <Button
               className="m-2"
@@ -101,6 +108,12 @@ class App extends Component {
               onClick={() => this.downloadWeather(Budapest)}
             >
               Budapest
+            </Button>
+            <Button
+              className="m-2"
+              onClick={() => this.downloadWeather(Brenna)}
+            >
+              Brenna
             </Button>
             <Button
               className="m-2"

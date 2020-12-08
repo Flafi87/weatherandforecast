@@ -9,9 +9,12 @@ export const temperatureArray = forecast => {
   const temperatures = { min: [], max: [] }
 
   forecast.forEach((object) => {
+    console.log(object)
     const { dt, temp } = object;
-    temperatures.min.push([dt * 1000, temp.min]);
-    temperatures.max.push([dt * 1000, temp.max]);
+    const date = new Date(dt * 1000)
+    // date.setHours(1)
+    temperatures.min.push([date, temp.min]);
+    temperatures.max.push([date, temp.max]);
   });
   return temperatures;
 };
@@ -19,7 +22,10 @@ export const temperatureArray = forecast => {
 export const rainArray = forecast => {
   const array = [];
   forecast.forEach((object) => {
-    array.push([object.dt * 1000, rainchecker(object)]);
+    const { dt } = object;
+    const date = new Date(dt * 1000)
+    // date.setHours(13)
+    array.push([date, rainchecker(object)]);
   });
   return array;
 };

@@ -19,7 +19,7 @@ const ForecastListItem = ({ dayNumber, allData }) => {
 }
 
 ForecastListItem.propTypes = {
-  dayNumber: PropTypes.number.isRequired,
+  dayNumber: PropTypes.string.isRequired,
   dayName: PropTypes.string.isRequired,
   allData: PropTypes.objectOf(PropTypes.array).isRequired,
 }
