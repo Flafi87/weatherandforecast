@@ -8,8 +8,6 @@ const TempChart = ({ forecast }) => {
 
   const forecastTemp = temperatureArray(forecast);
   const forecastRain = rainArray(forecast);
-  console.log(forecastTemp);
-  console.log(forecastRain);
   return (
     <div className="app" id="tempChart">
       <div className="mixed-chart">

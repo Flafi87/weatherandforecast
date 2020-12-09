@@ -1,4 +1,4 @@
-import ReactMapboxGl, {  Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import React from 'react';
 
@@ -10,9 +10,7 @@ const Map = ReactMapboxGl({
 const MyMap = ({ curCity, weather }) => {
   const { temp } = weather
   const weatherCondition = `owf owf-${weather.weather[0].id} owf-5x`;
-  const { lon, lat } = curCity
-  React.useEffect(() => { console.log("component updated"); });
-  console.log(curCity);
+  const { lon, lat } = curCity;
 
   const map =
     (<Map
@@ -22,7 +20,7 @@ const MyMap = ({ curCity, weather }) => {
         coordinates={[lon, lat]}
         anchor="bottom">
         <div className={weatherCondition} />
-        <p className = 'map-marker'>
+        <p className='map-marker'>
           {temp.toFixed(1)}
           {' '}
                   C°

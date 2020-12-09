@@ -9,7 +9,6 @@ export const temperatureArray = forecast => {
   const temperatures = { min: [], max: [] }
 
   forecast.forEach((object) => {
-    console.log(object)
     const { dt, temp } = object;
     const date = new Date(dt * 1000)
     // date.setHours(1)
