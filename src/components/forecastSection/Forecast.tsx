@@ -21,8 +21,6 @@ const Forecast = ({ forecast }) => {
 
 
   )
-  // console.log(`forecast`)
-  // console.log(`${JSON.parse(forecast)}`)
 
 
 }
