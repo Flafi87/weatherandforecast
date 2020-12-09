@@ -16,14 +16,14 @@ const MyMap = ({ curCity, weather }) => {
 
   const map =
     (<Map
-      style="mapbox://styles/mapbox/streets-v9" className="mapbox-container" center={[lon, lat]} zoom={[8]}
+      style="mapbox://styles/flafi87/ckifuffac4yeo19s2qriiqgn6" className="mapbox-container" center={[lon, lat]} zoom={[8]}
     >
       <Marker
         coordinates={[lon, lat]}
         anchor="bottom">
         <div className={weatherCondition} />
         <p className = 'map-marker'>
-          {temp}
+          {temp.toFixed(1)}
           {' '}
                   C°
                 </p>

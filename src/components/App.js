@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect,useState, useCallback } from "react";
 import Axios from "axios";
 import { Button,  Spinner } from 'reactstrap';
 import Header from "./Header";
@@ -8,67 +8,55 @@ import env from '../config';
 import MyMap from './Map'
 
 
-const [Warszawa, Kiskunmajsa, Budapest, Brenna] = [{ name: 'Warszawa', lat: 52.22, lon: 21.01 }, { name: 'Kiskunmajsa', lat: 46.49, lon: 19.73 }, { name: 'Budapest', lat: 47.49, lon: 19.04 },{ name: 'Brenna', lat: 49.732987, lon: 18.920351 }];
+const cities = {
+  Warszawa:{name: 'Warszawa', lat: 52.22, lon: 21.01},
+  Kiskunmajsa:{ name: 'Kiskunmajsa', lat: 46.49, lon: 19.73 },
+  Budapest:{ name: 'Budapest', lat: 47.49, lon: 19.04 },
+  Brenna:{name: 'Brenna', lat: 49.732987, lon: 18.920351 }
+}
+
+
 const { APIkey } = env
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      weather: null,
-      forecast: null,
-      error: null,
-      cityName: "Warszawa",
-      curCity: { lat: 52.22, lon: 21.01, name: "Warszawa" }
-    };
-  }
+const App = () => {
 
-  componentDidMount() {
-    const { curCity } = this.state
-    this.downloadWeather(curCity);
-  }
+const [weather,setWeather] = useState(null);
+const [forecast,setForecast] = useState(null);
+const [error,setError] = useState(null);
+const [curCity,setCurCity] = useState(cities.Warszawa);
 
-  checkWeatherByCoord = () => {
 
+const downloadWeather = useCallback(
+  () => {
+    const { lat, lon} = curCity
+    Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
+      weather => {
+        setWeather(weather.data.current);
+        setForecast(weather.data.forecast);
+      },
+      error => {
+        setError(error
+          )
+      }
+    );
+  },[curCity]
+)
+
+const changeCity = ({lat,lon,name}) => {
+  setCurCity({lat,lon,name})
+}
+
+  useEffect(() => {downloadWeather(curCity)},[downloadWeather,curCity]);
+
+  const checkWeatherByCoord = () => {
     window.navigator.geolocation.getCurrentPosition(
-      position => {
-        const lon = parseFloat(position.coords.longitude).toFixed(4);
-        const lat = parseFloat(position.coords.latitude).toFixed(4);
-        Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
-          weather => {
-            this.setState({
-              weather: weather.data.current,
-              cityName: `Latitude:${lat} Longitude:${lon}`,
-              forecast: weather.data.daily,
-              curCity:{lat,lon}
-            });
-          },
-          error => {
-            this.setState({
-              error
-            });
-          }
-        );
+      ({coords:{longitude,latitude}}) => {
+        const lon = parseFloat(longitude).toFixed(4);
+        const lat = parseFloat(latitude).toFixed(4);
+        setCurCity({lat,lon,name:'coordinates'})
       },
     );
   };
 
-  downloadWeather(city) {
-    const { lat, lon, name } = city
-    Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
-      weather => {
-        this.setState({ cityName: name, weather: weather.data.current, forecast: weather.data.daily,curCity:{lat,lon} });
-      },
-      error => {
-        this.setState({ error });
-      }
-    );
-  }
-
-
-
-
-  render() {
-    const { error, weather, forecast, cityName, curCity } = this.state;
     const spinner = (
       <div className="d-flex justify-content-center align-middle">
         <Spinner color="primary" />
@@ -83,41 +71,35 @@ class App extends Component {
       <div className="container">
         <TopButtons />
         <div className="jumbotron">
-          <h1 className="text-center">
-            Current Weather
-          </h1>
-          {/* <div className="text-center d-flex justify-content-center">
-            <h2 className="cityname">{cityName}</h2>
-          </div> */}
           {mapSection}
           <div className="d-flex justify-content-center flex-wrap">
             <Button
               className="m-2"
-              onClick={() => this.downloadWeather(Warszawa)}
+              onClick={() => changeCity(cities.Warszawa)}
             >
               Warszawa
             </Button>
             <Button
               className="m-2"
-              onClick={() => this.downloadWeather(Kiskunmajsa)}
+              onClick={() => changeCity(cities.Kiskunmajsa)}
             >
               Kiskunmajsa
             </Button>
             <Button
               className="m-2"
-              onClick={() => this.downloadWeather(Budapest)}
+              onClick={() => changeCity(cities.Budapest)}
             >
               Budapest
             </Button>
             <Button
               className="m-2"
-              onClick={() => this.downloadWeather(Brenna)}
+              onClick={() => changeCity(cities.Brenna)}
             >
               Brenna
             </Button>
             <Button
               className="m-2"
-              onClick={this.checkWeatherByCoord}
+              onClick={checkWeatherByCoord}
             >
               Check My Location
             </Button>
@@ -130,8 +112,6 @@ class App extends Component {
         </div>
       </div>
     );
-
-  }
 }
 
 export default App;

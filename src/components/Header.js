@@ -18,7 +18,7 @@ const Header = ({ weather }) => {
           <div className="m-1">
             <h5>Feels like</h5>
             <h5>
-              {feels_like}
+              {feels_like.toFixed(1)}
               {' '}
               C°
             </h5>
