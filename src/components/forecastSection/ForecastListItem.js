@@ -21,7 +21,10 @@ const ForecastListItem = ({ dayNumber, allData }) => {
 ForecastListItem.propTypes = {
   dayNumber: PropTypes.string.isRequired,
   dayName: PropTypes.string.isRequired,
-  allData: PropTypes.objectOf(PropTypes.array).isRequired,
+  allData: PropTypes.shape({
+    temp:PropTypes.object,
+    weather: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired,
 }
 
 export default ForecastListItem;

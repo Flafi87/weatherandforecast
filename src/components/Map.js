@@ -14,6 +14,7 @@ const MyMap = ({ curCity, weather }) => {
 
   const map =
     (<Map
+      // eslint-disable-next-line react/style-prop-object
       style="mapbox://styles/flafi87/ckifuffac4yeo19s2qriiqgn6" className="mapbox-container" center={[lon, lat]} zoom={[8]}
     >
       <Marker

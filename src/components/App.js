@@ -31,7 +31,7 @@ const downloadWeather = useCallback(
     Axios(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${APIkey}&units=metric`).then(
       weather => {
         setWeather(weather.data.current);
-        setForecast(weather.data.forecast);
+        setForecast(weather.data.daily);
       },
       error => {
         setError(error
