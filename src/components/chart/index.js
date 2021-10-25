@@ -2,7 +2,7 @@ import React from "react";
 import Chart from "react-apexcharts";
 import PropTypes from 'prop-types';
 import chartSettings from './chartSettings'
-import { temperatureArray, rainArray } from '../helperFunctions';
+import { temperatureArray, rainArray } from '../../lib/helperFunctions';
 
 const TempChart = ({ forecast }) => {
 

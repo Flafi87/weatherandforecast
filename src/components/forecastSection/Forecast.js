@@ -1,5 +1,4 @@
 import React from 'react';
-// import { dataCalc, dayCalc, theDay } from '../helperFunctions'
 import ForecastListItem from "./ForecastListItem";
 
 const Forecast = ({ forecast }) => {
@@ -18,13 +17,7 @@ const Forecast = ({ forecast }) => {
 
     }
     )
-
-
   )
-  // console.log(`forecast`)
-  // console.log(`${JSON.parse(forecast)}`)
-
-
 }
 
 export default Forecast
