@@ -1,3 +1,4 @@
+import Axios from "axios";
 const rainchecker = x => {
   if (x.rain !== undefined) {
     return x.rain;
@@ -76,3 +77,26 @@ export const dataCalc = (forecast) => {
   return myData
 }
 
+export const checkWeatherByCoord = (setCurCity) => {
+  window.navigator.geolocation.getCurrentPosition(
+    ({coords:{longitude,latitude}}) => {
+      const lon = parseFloat(longitude).toFixed(4);
+      const lat = parseFloat(latitude).toFixed(4);
+      setCurCity({lat,lon,name:'coordinates'})
+    },
+  );
+};
+
+export const downloadWeather = ({curCity,setWeather,setForecast,setError}) => {
+    const { lat, lon} = curCity
+    Axios(`https://flafi.hu/onecall?lat=${lat}&lon=${lon}`).then(
+      weather => {
+        setWeather(weather.data.current);
+        setForecast(weather.data.daily);
+      },
+      error => {
+        setError(error
+          )
+      }
+    );
+  }

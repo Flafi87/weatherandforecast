@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import Forecast from "./Forecast";
-import TempChart from "../chart";
+import TempChart from "../Chart";
 
 const ForecastSection = ({ forecast }) => {
   return (
